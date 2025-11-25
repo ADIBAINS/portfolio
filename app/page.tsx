@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
 // --- Fonts & Styles ---
 const GlobalStyles = () => (
@@ -164,7 +164,13 @@ const Linkedin = ({ size = 24, className = "" }) => (
 
 // --- Custom Hover Border Component ---
 
-const HoverBorderGradient = ({ children, onClick, className = "" }) => {
+type HoverBorderGradientProps = {
+  children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string;
+};
+
+const HoverBorderGradient: React.FC<HoverBorderGradientProps> = ({ children, onClick, className = "" }) => {
     return (
         <button 
             onClick={onClick}
@@ -239,19 +245,25 @@ const Navbar = () => (
  * ContactButton: Uses the new HoverBorderGradient component.
  */
 const ContactButton = () => {
-    const handleScrollToContact = (e) => {
-        // e.preventDefault(); // HoverBorderGradient is wrapped in a button already
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-    };
+  const handleScrollToContact: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    // e.preventDefault(); // HoverBorderGradient is wrapped in a button already
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    return (
-        <HoverBorderGradient onClick={handleScrollToContact}>
-            Get in touch 
-        </HoverBorderGradient>
-    );
+  return (
+    <HoverBorderGradient onClick={handleScrollToContact}>
+      Get in touch 
+    </HoverBorderGradient>
+  );
 };
 
-const SocialLink = ({ href, icon: Icon }) => (
+type SocialLinkProps = {
+  href: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+};
+
+const SocialLink: React.FC<SocialLinkProps> = ({ href, icon: Icon }) => (
   <a 
     href={href}
     className="text-zinc-600 hover:text-white transition-colors duration-300"
@@ -260,7 +272,7 @@ const SocialLink = ({ href, icon: Icon }) => (
   >
     <Icon size={18} />
   </a>
-);
+)
 
 // --- Main App Component ---
 
