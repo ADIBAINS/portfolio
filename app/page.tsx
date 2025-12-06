@@ -305,7 +305,7 @@ const App = () => {
           </h1>
           <p className="font-sans-clean text-lg md:text-xl text-zinc-400 font-light tracking-wide max-w-lg mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
             Something exceptional is being built. <br />
-            <span className="text-zinc-500">My portfolio is currently under construction.</span>
+            <span className="text-zinc-500">Cooking with My Manifesto</span>
           </p>
         </div>
 
