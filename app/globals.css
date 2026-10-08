@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #12100e;
+  --color-ink-2: #1a1714;
+  --color-ink-3: #241f1b;
+  --color-ivory: #faf7f1;
+  --color-cream: #f2ebe0;
+  --color-sand: #e7dac8;
+  --color-bronze: #c9a87c;
+  --color-bronze-2: #e2c9a2;
+  --color-rosewood: #8a6a5a;
+  --color-stone-mute: #a8a29a;
+
+  --font-display: "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #c9a87c;
+  color: #12100e;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* fine hairline borders */
+.hairline {
+  border: 1px solid color-mix(in srgb, #faf7f1 12%, transparent);
+}
+.hairline-dark {
+  border: 1px solid color-mix(in srgb, #12100e 10%, transparent);
+}
+
+/* glass */
+.glass {
+  background: color-mix(in srgb, #faf7f1 6%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.glass-strong {
+  background: color-mix(in srgb, #1a1714 72%, transparent);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+/* subtle grain */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  mix-blend-mode: overlay;
+}
+
+/* editorial label */
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* thin scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #12100e;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a332d;
+  border-radius: 8px;
+}
+
+/* focus visibility */
+:focus-visible {
+  outline: 2px solid #c9a87c;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
