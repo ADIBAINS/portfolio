@@ -6,6 +6,7 @@
   const progress = banner.querySelector('[data-banner-progress]');
   const caption = banner.querySelector('[data-banner-caption]');
   const count = banner.querySelector('[data-banner-count]');
+  const credit = banner.querySelector('[data-banner-credit]');
   const status = banner.querySelector('[data-banner-status]');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const interval = 8000;
@@ -32,9 +33,12 @@
   function advance(manual = false) {
     banner.querySelector('.is-previous')?.classList.remove('is-previous');
     scenes[index].classList.replace('is-current', 'is-previous');
+    scenes[index].setAttribute('aria-hidden', 'true');
     index = (index + 1) % scenes.length;
     scenes[index].classList.add('is-current');
+    if (scenes[index].querySelector('img')) scenes[index].setAttribute('aria-hidden', 'false');
     caption.textContent = scenes[index].dataset.scene;
+    if (credit) credit.hidden = !scenes[index].hasAttribute('data-credited');
     count.textContent = [index + 1, scenes.length]
       .map(number => String(number).padStart(2, '0'))
       .join(' / ');

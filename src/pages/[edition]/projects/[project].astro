@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import Arrow from '../../../components/Arrow.astro';
+import ThemeToggle from '../../../components/ThemeToggle.astro';
+import Base from '../../../layouts/Base.astro';
+import { editionEntries, sitePath } from '../../../designs/editions';
+import '../../../designs/editions.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return editionEntries.flatMap(([edition, design]) =>
+    projects.map(project => ({ params: { edition, project: project.id }, props: { project, design } })),
+  );
+}
+
+const { edition } = Astro.params;
+const { project, design } = Astro.props;
+const { Content } = await render(project);
+const { title, description, url, stack } = project.data;
+---
+<Base preview banner={false} title={`${title} · Adil Bains`} designFonts={`https://fonts.googleapis.com/css2?family=${design.fonts}&display=swap`}>
+  <div class:list={['edition', edition]}>
+    <header class="edition-nav">
+      <a href={sitePath(`${edition}/#work`)}>← Selected projects</a>
+      <ThemeToggle />
+    </header>
+    <main class="case-study">
+      <h1>{title}</h1>
+      <p class="case-summary">{description}</p>
+      <ul class="project-stack" aria-label="Technologies">{stack.map(tool => <li>{tool}</li>)}</ul>
+      <a class="case-source" href={url}>View source on GitHub <Arrow /></a>
+      <div class="case-content"><Content /></div>
+    </main>
+  </div>
+</Base>

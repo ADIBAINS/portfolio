@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { editionEntries, sitePath } from '../designs/editions';
+import '../designs/editions.css';
+---
+<Base preview banner={false}>
+  <main class="comparison">
+    <header class="comparison-header">
+      <h1>Portfolio studies</h1>
+      <ThemeToggle />
+    </header>
+    <ul class="comparison-list">
+      {editionEntries.map(([edition, { name, description }]) => (
+        <li>
+          <a class="design-card" href={sitePath(`${edition}/`)}>
+            <div class="design-thumbnails">
+              <img src={sitePath(`designs/${edition}-desktop.webp`)} alt="" width="720" height="480" />
+              <img src={sitePath(`designs/${edition}-phone.webp`)} alt="" width="216" height="384" />
+            </div>
+            <h2>{name} <span aria-hidden="true">↗</span></h2>
+            <p>{description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Base>

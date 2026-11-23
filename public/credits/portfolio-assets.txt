@@ -1,0 +1,17 @@
+Knight banner artwork
+Source: https://heyalok.com/
+https://heyalok.com/banner/knight-light.avif
+https://heyalok.com/banner/knight-dark.avif
+
+Location pin and external link vector paths
+Source: https://ritupatil.me/
+https://ritupatil.me/icons/location.svg
+https://ritupatil.me/icons/link-out.svg
+Fill adapted to currentColor.
+
+Code and graduation icons
+Lucide, as seen on https://jdhruv.dev/
+See lucide.txt for the upstream license.
+
+Monochrome typography
+Inter and JetBrains Mono via Google Fonts, as used on https://www.maanastyagi.com/.

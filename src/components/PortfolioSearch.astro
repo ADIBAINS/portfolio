@@ -1,0 +1,80 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { sitePath, type Edition } from '../designs/editions';
+
+interface Props {
+  edition: Edition;
+  projects: CollectionEntry<'projects'>[];
+}
+const { edition, projects } = Astro.props;
+const links = [
+  { name: 'Selected projects', href: '#work' },
+  { name: 'Education and skills', href: '#about' },
+  { name: 'Contact', href: '#contact' },
+  ...projects.map(({ id, data }) => ({ name: data.title, href: sitePath(`${edition}/projects/${id}/`) })),
+  { name: 'Compare designs', href: sitePath('compare/') },
+  { name: 'Plain-text profile', href: sitePath('profile.txt') },
+];
+---
+<button type="button" class="portfolio-search" aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K" data-open-search hidden>
+  Search <kbd aria-hidden="true">⌘ / Ctrl K</kbd>
+</button>
+<dialog class="search-dialog" aria-labelledby="search-title">
+  <div class="search-heading">
+    <h2 id="search-title">Find on this portfolio</h2>
+    <form method="dialog"><button type="submit" aria-label="Close search">×</button></form>
+  </div>
+  <input type="search" aria-label="Filter portfolio links" placeholder="Search projects or sections" autofocus />
+  <ul>{links.map(({ name, href }) => <li><a href={href}>{name} <span aria-hidden="true">→</span></a></li>)}</ul>
+  <p data-search-empty hidden>No matching links.</p>
+</dialog>
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('[data-open-search]')!;
+  const dialog = document.querySelector<HTMLDialogElement>('.search-dialog')!;
+  const search = dialog.querySelector<HTMLInputElement>('input')!;
+  const entries = [...dialog.querySelectorAll<HTMLLIElement>('li')];
+  const empty = dialog.querySelector<HTMLElement>('[data-search-empty]')!;
+
+  function filter() {
+    const query = search.value.trim().toLowerCase();
+    for (const entry of entries) entry.hidden = !entry.textContent?.toLowerCase().includes(query);
+    empty.hidden = entries.some(entry => !entry.hidden);
+  }
+
+  function openSearch() {
+    if (dialog.open) return;
+    search.value = '';
+    filter();
+    dialog.showModal();
+  }
+
+  trigger.hidden = false;
+  trigger.addEventListener('click', openSearch);
+  search.addEventListener('input', filter);
+  document.addEventListener('keydown', event => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      openSearch();
+    }
+  });
+  dialog.addEventListener('click', event => {
+    if (event.target instanceof Element && event.target.closest('a')) dialog.close();
+  });
+  search.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      dialog.close();
+      return;
+    }
+    const first = entries.find(entry => !entry.hidden)?.querySelector('a');
+    if (!first) return;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      first.focus();
+    }
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      first.click();
+    }
+  });
+</script>
