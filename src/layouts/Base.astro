@@ -7,9 +7,9 @@ interface Props {
   preview?: boolean;
   designFonts?: string;
   banner?: boolean;
+  title?: string;
 }
-const { preview = false, designFonts, banner = true } = Astro.props;
-const title = 'Adil Bains';
+const { preview = false, designFonts, banner = true, title = 'Adil Bains' } = Astro.props;
 const description = 'Adil Bains studies computer science at MSIT and builds software for the web.';
 const url = Astro.site!.href;
 const image = new URL('social.png', Astro.site).href;

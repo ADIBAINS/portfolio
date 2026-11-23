@@ -9,8 +9,10 @@ import inkArch from '../art/gothic/arch.svg?url';
 import inkRidges from '../art/gothic/ridges.svg?url';
 import inkTower from '../art/gothic/tower.svg?url';
 
+import type { Edition } from '../designs/editions';
+
 interface Props {
-  edition?: 'manga' | 'manuscript' | 'landscape';
+  edition?: Edition;
 }
 const { edition } = Astro.props;
 const original = [
@@ -25,7 +27,7 @@ const engravings = [
   { name: 'Ridge lines', image: inkRidges, description: 'Guts looks out across the mountains, with the Dragonslayer rising over his shoulder.' },
   { name: 'Tower on a crag', image: inkTower, description: 'A tower on a rocky outcrop against a ring of eclipse light.' },
 ];
-const openingScene = { manga: 2, manuscript: 1, landscape: 3 };
+const openingScene = { manga: 2, manuscript: 1, landscape: 3, monochrome: 0 };
 const ordered = edition
   ? engravings.slice(openingScene[edition]).concat(engravings.slice(0, openingScene[edition]))
   : [];

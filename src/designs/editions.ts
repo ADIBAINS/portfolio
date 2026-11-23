@@ -9,6 +9,11 @@ export const editions = {
     description: 'An engraved plate, warm parchment, and gilded initials.',
     fonts: 'Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Cinzel:wght@500;600',
   },
+  monochrome: {
+    name: 'Monochrome',
+    description: 'A compact profile and grayscale engravings, in light and dark.',
+    fonts: 'IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700',
+  },
   landscape: {
     name: 'Bleak landscape',
     description: 'A wide eclipse panorama above a narrow column of type.',

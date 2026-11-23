@@ -4,6 +4,7 @@ import Arrow from '../components/Arrow.astro';
 import Banner from '../components/Banner.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import Base from '../layouts/Base.astro';
+import PortfolioSearch from '../components/PortfolioSearch.astro';
 import { editionEntries, editions, sitePath, type Edition } from '../designs/editions';
 import { hackathons, introduction, skills } from '../designs/profile';
 import '../designs/editions.css';
@@ -20,6 +21,7 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
 ---
 <Base preview designFonts={fonts}>
   <div class:list={['edition', edition]} data-edition={edition}>
+    <a href="#main" class="skip-link">Skip to content</a>
     <header class="edition-nav">
       <a class="comparison-link" href={sitePath('compare/')}>← Compare designs</a>
       <nav aria-label="Portfolio">
@@ -27,16 +29,22 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
+      <PortfolioSearch edition={edition} projects={projects} />
       <ThemeToggle />
     </header>
 
-    <main>
+    <main id="main">
       <div class="edition-hero">
         {edition === 'landscape' && <Banner edition={edition} />}
         <div class="edition-title">
           <h1>Adil Bains</h1>
           <p class="edition-subtitle">Computer Science &amp; Engineering student at MSIT</p>
           <p class="edition-intro">{introduction}</p>
+          <div class="intro-links">
+            <a href="#work">View projects ↓</a>
+            <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
+            <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+          </div>
         </div>
         {edition !== 'landscape' && <Banner edition={edition} />}
       </div>
@@ -46,10 +54,10 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
           <section class="edition-work" id="work" aria-labelledby="work-heading">
             <h2 id="work-heading">Selected projects</h2>
             <ul class="edition-projects">
-              {projects.map(({ data }) => (
+              {projects.map(({ id, data }) => (
                 <li class="edition-project">
                   <div>
-                    <h3><a href={data.url}>{data.title} <Arrow /></a></h3>
+                    <h3><a href={sitePath(`${edition}/projects/${id}/`)}>{data.title} <span aria-hidden="true">→</span></a></h3>
                     <p>{data.description}</p>
                     {data.detail && <p class="project-detail">{data.detail}</p>}
                   </div>
@@ -94,6 +102,7 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
       <div>
         <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
         <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+      <a href={sitePath('profile.txt')}>Text profile <Arrow /></a>
       </div>
       <small>© 2026 Adil Bains</small>
     </footer>
