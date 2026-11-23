@@ -8,6 +8,10 @@ import PortfolioSearch from '../components/PortfolioSearch.astro';
 import { editionEntries, editions, sitePath, type Edition } from '../designs/editions';
 import { hackathons, introduction, skills } from '../designs/profile';
 import '../designs/editions.css';
+import locationIcon from '../art/references/location.svg?raw';
+import externalIcon from '../art/references/link-out.svg?raw';
+import graduationIcon from '../art/references/graduation-cap.svg?raw';
+import codeIcon from '../art/references/code-xml.svg?raw';
 
 export function getStaticPaths() {
   return editionEntries.map(([edition]) => ({ params: { edition } }));
@@ -40,10 +44,11 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
           <h1>Adil Bains</h1>
           <p class="edition-subtitle">Computer Science &amp; Engineering student at MSIT</p>
           <p class="edition-intro">{introduction}</p>
+          <p class="edition-location"><span class="reference-icon" aria-hidden="true" set:html={locationIcon} />Delhi, India</p>
           <div class="intro-links">
             <a href="#work">View projects ↓</a>
             <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
-            <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+            <a href="https://github.com/ADIBAINS">GitHub <span class="reference-icon" aria-hidden="true" set:html={externalIcon} /></a>
           </div>
         </div>
         {edition !== 'landscape' && <Banner edition={edition} />}
@@ -82,13 +87,13 @@ const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].font
 
         <div class="edition-profile" id="about">
           <section aria-labelledby="education-heading">
-            <h2 id="education-heading">Education</h2>
+            <h2 id="education-heading"><span class="reference-icon" aria-hidden="true" set:html={graduationIcon} />Education</h2>
             <p class="degree">Maharaja Surajmal Institute of Technology</p>
             <p>B.Tech. in Computer Science &amp; Engineering</p>
             <p>Aug 2024 – Jun 2028 · 9.1/10 CGPA</p>
           </section>
           <section aria-labelledby="skills-heading">
-            <h2 id="skills-heading">Technical skills</h2>
+            <h2 id="skills-heading"><span class="reference-icon" aria-hidden="true" set:html={codeIcon} />Technical skills</h2>
             <dl class="skill-list">
               {skills.map(({ label, value }) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
             </dl>

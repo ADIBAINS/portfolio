@@ -12,7 +12,7 @@ export const editions = {
   monochrome: {
     name: 'Monochrome',
     description: 'A compact profile and grayscale engravings, in light and dark.',
-    fonts: 'IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700',
+    fonts: 'Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500',
   },
   landscape: {
     name: 'Bleak landscape',
