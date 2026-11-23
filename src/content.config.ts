@@ -9,6 +9,8 @@ const projects = defineCollection({
     description: z.string(),
     url: z.url({ protocol: /^https?$/ }),
     order: z.number().int(),
+    stack: z.array(z.string()).default([]),
+    detail: z.string().optional(),
   }),
 });
 
