@@ -4,19 +4,45 @@ import arch from '../art/arch.svg?raw';
 import ridges from '../art/ridges.svg?raw';
 import tower from '../art/tower.svg?raw';
 
-const scenes = [
+import inkLake from '../art/gothic/lake.svg?url';
+import inkArch from '../art/gothic/arch.svg?url';
+import inkRidges from '../art/gothic/ridges.svg?url';
+import inkTower from '../art/gothic/tower.svg?url';
+
+interface Props {
+  edition?: 'manga' | 'manuscript' | 'landscape';
+}
+const { edition } = Astro.props;
+const original = [
   { name: 'Lake at night', art: lake },
   { name: 'Ruined arch', art: arch },
   { name: 'Ridge lines', art: ridges },
   { name: 'Tower on a crag', art: tower },
 ];
+const engravings = [
+  { name: 'Lake at night', image: inkLake, description: 'A crescent moon reflected in a mountain lake.' },
+  { name: 'Ruined arch', image: inkArch, description: 'A broken stone arch over a path through the mountains.' },
+  { name: 'Ridge lines', image: inkRidges, description: 'Guts looks out across the mountains, with the Dragonslayer rising over his shoulder.' },
+  { name: 'Tower on a crag', image: inkTower, description: 'A tower on a rocky outcrop against a ring of eclipse light.' },
+];
+const openingScene = { manga: 2, manuscript: 1, landscape: 3 };
+const ordered = edition
+  ? engravings.slice(openingScene[edition]).concat(engravings.slice(0, openingScene[edition]))
+  : [];
+const scenes = edition ? ordered.map(scene => ({ ...scene, art: undefined })) : original.map(scene => ({
+  ...scene, image: undefined, description: undefined,
+}));
 ---
 <figure data-banner>
   <div class="banner-frame">
-    {scenes.map(({ name, art }, index) => (
-      <div class:list={['scene', { 'is-current': index === 0 }]} data-scene={name} aria-hidden="true" set:html={art} />
+    {scenes.map(({ name, art, image, description }, index) => (
+      <div class:list={['scene', { 'is-current': index === 0 }]} data-scene={name} aria-hidden={image ? index !== 0 : true}>
+        {image ? <img src={image} alt={description} width="1200" height="510" decoding="async" fetchpriority={index === 0 ? 'high' : 'low'} /> : <Fragment set:html={art} />}
+      </div>
     ))}
-    <button type="button" class="banner-next" aria-label="Next illustration" data-banner-next hidden></button>
+    <button type="button" class="banner-next" aria-label="Next illustration" data-banner-next hidden>
+      {edition && <span aria-hidden="true">→</span>}
+    </button>
   </div>
   <div class="banner-progress" aria-hidden="true"><span data-banner-progress></span></div>
   <figcaption class="banner-meta">

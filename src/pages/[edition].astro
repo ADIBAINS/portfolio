@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import Arrow from '../components/Arrow.astro';
+import Banner from '../components/Banner.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Base from '../layouts/Base.astro';
+import { editionEntries, editions, sitePath, type Edition } from '../designs/editions';
+import '../designs/editions.css';
+
+export function getStaticPaths() {
+  return editionEntries.map(([edition]) => ({ params: { edition } }));
+}
+
+const edition = Astro.params.edition as Edition;
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
+const fonts = `https://fonts.googleapis.com/css2?family=${editions[edition].fonts}&display=swap`;
+---
+<Base preview designFonts={fonts}>
+  <div class:list={['edition', edition]} data-edition={edition}>
+    <header class="edition-nav">
+      <a class="comparison-link" href={sitePath('compare/')}>← Compare designs</a>
+      <nav aria-label="Portfolio">
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <ThemeToggle />
+    </header>
+
+    <main>
+      <div class="edition-hero">
+        {edition === 'landscape' && <Banner edition={edition} />}
+        <div class="edition-title">
+          <h1>Adil Bains</h1>
+          <p class="edition-subtitle">Computer science student at MSIT</p>
+          {edition === 'manuscript' && <p class="manuscript-intro">I enjoy building things, learning how systems work, and working close to the fundamentals.</p>}
+        </div>
+        {edition !== 'landscape' && <Banner edition={edition} />}
+      </div>
+
+      <div class="edition-body">
+        <section class="edition-about" aria-labelledby="about-heading">
+          <h2 id="about-heading">{edition === 'manuscript' ? 'Interests' : 'About'}</h2>
+          {edition !== 'manuscript' && <p>I enjoy building things, learning how systems work, and working close to the fundamentals.</p>}
+          <ul aria-label="Interests"><li>Linux</li><li>Networking</li><li>Backend systems</li></ul>
+        </section>
+
+        <section class="edition-work" id="work" aria-labelledby="work-heading">
+          <h2 id="work-heading">Selected work</h2>
+          <ul class="edition-projects">
+            {projects.map(({ data }) => (
+              <li>
+                <a class="edition-project" href={data.url} aria-label={`${data.title} on GitHub. ${data.description}`}>
+                  <h3>{data.title}</h3>
+                  <p>{data.description}</p>
+                  <Arrow />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="edition-footer" id="contact">
+      <h2>Contact</h2>
+      <div>
+        <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
+        <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+      </div>
+      <small>© 2026 Adil Bains</small>
+    </footer>
+  </div>
+</Base>

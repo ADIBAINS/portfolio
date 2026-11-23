@@ -32,8 +32,10 @@
   function advance(manual = false) {
     banner.querySelector('.is-previous')?.classList.remove('is-previous');
     scenes[index].classList.replace('is-current', 'is-previous');
+    scenes[index].setAttribute('aria-hidden', 'true');
     index = (index + 1) % scenes.length;
     scenes[index].classList.add('is-current');
+    if (scenes[index].querySelector('img')) scenes[index].setAttribute('aria-hidden', 'false');
     caption.textContent = scenes[index].dataset.scene;
     count.textContent = [index + 1, scenes.length]
       .map(number => String(number).padStart(2, '0'))
