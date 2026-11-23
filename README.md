@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Adil Bains
 
-## Getting Started
+Static Astro portfolio for [adibains.me](https://adibains.me).
 
-First, run the development server:
+## Local development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Use Node.js 22.23.4 or later. Run `npm ci`, then `npm run dev`. Run `npm run check` for type checking and `npm run build` to generate `dist/index.html` and its assets. Use `npm run preview` to test the built site.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Add a Markdown file under `src/content/projects` with `title`, `description`, `url`, and integer `order` frontmatter. Lower values appear first. Future blog Markdown goes in `src/content/blog` with `title`, `description`, and `published` frontmatter.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Use the existing project linked to this repository and adibains.me. The root `vercel.json` selects Astro, `npm run build`, and `dist`. Select a Node version that satisfies `package.json` and clear any stale dashboard build overrides. Deploy a branch preview before merging to the production branch.
 
-## Learn More
+## Cloudflare Pages
 
-To learn more about Next.js, take a look at the following resources:
+Connect the repository in Pages and set the build command to `npm run build`, the output directory to `dist`, and the build environment to a Node version that satisfies `package.json`. For direct upload, run `npm ci`, `npm run build`, and `npx wrangler pages deploy` with the Pages project named in `wrangler.toml`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## GitHub Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In the repository Pages settings, select GitHub Actions. In the workflow, install a supported Node version, run `npm ci`, then `PORTFOLIO_BASE=/portfolio/ npm run build`. Upload `dist` with the GitHub Pages artifact action and publish it with the Pages deploy action. For a root-domain deployment, use `PORTFOLIO_BASE=/`. The canonical URL continues to point to adibains.me.

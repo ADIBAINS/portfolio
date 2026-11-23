@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 350" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="lake-sky" width="9" height="7" patternUnits="userSpaceOnUse">
+      <path d="M-4 7 7 0m0 7 11-7" stroke="currentColor" stroke-width=".9" opacity=".32"/>
+    </pattern>
+    <pattern id="lake-rock" width="7" height="11" patternUnits="userSpaceOnUse">
+      <path d="M-2 11 4 0m1 11 6-11M0 4l7 3" stroke="currentColor" stroke-width=".75" opacity=".64"/>
+    </pattern>
+    <pattern id="lake-water" width="101" height="15" patternUnits="userSpaceOnUse">
+      <path d="M0 2h23m14 0h51M14 6h24m8 1h32m13 0h10M3 12h46m9 0h13m7 0h19" fill="none" stroke="currentColor" stroke-width=".7" opacity=".68"/>
+    </pattern>
+    <path id="lake-cliff" d="M0 165 45 148l25 5 29-15 29 10 29-5 27 13 35 2 33 17 64 8 45 15 57 9 52 13 53-7 43-24 24-9 38-36 25-19 8-17 26-6 37-23 24-7 15-25 40-8 36-25 49 3 20-13 28 3 76-19v236H0Z"/>
+    <clipPath id="lake-cliff-clip"><use href="#lake-cliff"/></clipPath>
+  </defs>
+  <path fill="url(#lake-sky)" d="M0 0h1120v225H0z"/>
+  <path d="M0 47q95 18 175-3t166-1 135-8q-48 45-155 38T92 91L0 83Zm98 66q95-32 200-22t175-21q-44 41-127 44l-49 15q-97-15-199 8Z" fill="currentColor" opacity=".14"/>
+  <path d="M463 38a34 34 0 1 0 38 49 36 36 0 0 1-38-49Z" fill="var(--paper)" stroke="currentColor" stroke-width="1.1"/>
+  <path d="M0 215h1120v135H0z" fill="url(#lake-water)"/>
+  <path d="M423 219h66m-55 6h45m-61 7h78m-67 8h84m-92 10h72m-83 10h104m-111 12h132m-135 14h145m-154 17h157m-157 19h168" stroke="var(--paper)" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+  <use href="#lake-cliff" fill="var(--paper)" stroke="currentColor" stroke-width="1.3"/>
+  <use href="#lake-cliff" fill="url(#lake-rock)"/>
+  <g clip-path="url(#lake-cliff-clip)" fill="currentColor" opacity=".76">
+    <path d="m1120 17-173 33-26 20-21 65-43 60 16-59-30 7-15 38-37 31 13-45-28 12-20 33-38 18 20-35-67 31-85 15-121-1-54-16-112-5-86-16-124-3L0 185v39h1120Z"/>
+    <path d="m682 119 32-14-15 50-24 22-16 32 2-35zm67-50 26-13-24 73-24 28zm51-26 34-12-19 49-27 40 9-34zm119-12 18-17-17 49-15 16z"/>
+  </g>
+  <path d="M0 350v-55l35-11 50 3 47 23 35 5 29 35Zm744 0 73-25 51-2 28-22 51-10 26-26 52-14 33-29 62-10v138Z" fill="currentColor"/>
+  <path d="m2 303 31-11 54 3 35 18-48-9-30 7-21-7Zm824 33 52-7 26-20 53-10 27-25 48-15 34-28 44-9-36 17-28 32-53 12-32 31-59 5-30 16Z" fill="var(--paper)" opacity=".75"/>
+  <path d="M16 335l28-15 28 9 42-5m848 19 29-17 38-13 26-19 44-12m-104 15 38-19 36-6 29-23" fill="none" stroke="var(--paper)" opacity=".52"/>
+</svg>

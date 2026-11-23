@@ -1,0 +1,31 @@
+---
+import lake from '../art/lake.svg?raw';
+import arch from '../art/arch.svg?raw';
+import ridges from '../art/ridges.svg?raw';
+import tower from '../art/tower.svg?raw';
+
+const scenes = [
+  { name: 'Lake at night', art: lake },
+  { name: 'Ruined arch', art: arch },
+  { name: 'Ridge lines', art: ridges },
+  { name: 'Tower on a crag', art: tower },
+];
+---
+<figure data-banner>
+  <div class="banner-frame">
+    {scenes.map(({ name, art }, index) => (
+      <div class:list={['scene', { 'is-current': index === 0 }]} data-scene={name} aria-hidden="true" set:html={art} />
+    ))}
+    <button type="button" class="banner-next" aria-label="Next illustration" data-banner-next hidden></button>
+  </div>
+  <div class="banner-progress" aria-hidden="true"><span data-banner-progress></span></div>
+  <figcaption class="banner-meta">
+    <span class="banner-caption" data-banner-caption>{scenes[0].name}</span>
+    <button type="button" class="banner-pause" data-banner-pause aria-label="Pause banner rotation" hidden>
+      <svg class="pause-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M5 3v10m6-10v10" stroke="currentColor" stroke-width="1.5"/></svg>
+      <svg class="play-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="m5 2 9 6-9 6z" fill="currentColor"/></svg>
+    </button>
+    <span class="banner-count" data-banner-count>01 / 04</span>
+    <span class="sr-only" role="status" data-banner-status></span>
+  </figcaption>
+</figure>

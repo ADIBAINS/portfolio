@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Banner from '../components/Banner.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import IndexRow from '../components/IndexRow.astro';
+import Arrow from '../components/Arrow.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
+---
+<Base>
+  <div class="page">
+    <header class="site-header"><ThemeToggle /></header>
+    <main>
+      <Banner />
+      <div class="intro">
+        <h1>Adil Bains</h1>
+        <p>Computer science student at MSIT.</p>
+      </div>
+      <div class="index">
+        <IndexRow id="about" label="About">
+          <p>I'm a computer science student at MSIT. I enjoy building things, learning how systems work, and working close to the fundamentals.</p>
+        </IndexRow>
+        <IndexRow id="interests" label="Interests">
+          <p>Linux, Networking, Backend systems</p>
+        </IndexRow>
+        <IndexRow id="work" label="Work">
+          <ul class="projects">
+            {projects.map(({ data }) => (
+              <li>
+                <a class="project-link" href={data.url}>
+                  <span class="project-name">{data.title}</span>
+                  <span class="project-description">{data.description}</span>
+                  <Arrow />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </IndexRow>
+        <IndexRow id="contact" label="Contact">
+          <div class="contact-links">
+            <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
+            <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+          </div>
+        </IndexRow>
+      </div>
+    </main>
+    <footer>© 2026 Adil Bains</footer>
+  </div>
+</Base>
