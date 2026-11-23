@@ -1,52 +1,90 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Banner from '../components/Banner.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import IndexRow from '../components/IndexRow.astro';
 import Arrow from '../components/Arrow.astro';
+import PortfolioTerrain from '../components/PortfolioTerrain.astro';
+import ProjectDiagram from '../components/ProjectDiagram.astro';
+import { sitePath } from '../designs/editions';
+import { hackathons, skills } from '../designs/profile';
+import '../home.css';
 
-const projects = (await getCollection('projects')).sort(
-  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
-);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base>
-  <div class="page">
-    <header class="site-header"><ThemeToggle /></header>
-    <main>
-      <Banner />
-      <div class="intro">
-        <h1>Adil Bains</h1>
-        <p>Computer science student at MSIT.</p>
-      </div>
-      <div class="index">
-        <IndexRow id="about" label="About">
-          <p>I'm a computer science student at MSIT. I enjoy building things, learning how systems work, and working close to the fundamentals.</p>
-        </IndexRow>
-        <IndexRow id="interests" label="Interests">
-          <p>Linux, Networking, Backend systems</p>
-        </IndexRow>
-        <IndexRow id="work" label="Work">
-          <ul class="projects">
-            {projects.map(({ data }) => (
-              <li>
-                <a class="project-link" href={data.url}>
-                  <span class="project-name">{data.title}</span>
-                  <span class="project-description">{data.description}</span>
-                  <Arrow />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </IndexRow>
-        <IndexRow id="contact" label="Contact">
-          <div class="contact-links">
-            <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
-            <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+<Base banner={false} designFonts="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Rethink+Sans:wght@400;500;600;700;800&display=swap">
+  <div class="portfolio-home" id="top">
+    <a href="#main" class="home-skip">Skip to content</a>
+    <header class="home-nav">
+      <a href="#top" class="home-brand">Adil Bains</a>
+      <nav aria-label="Portfolio">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+      </nav>
+      <ThemeToggle />
+    </header>
+    <main id="main">
+      <section class="home-hero" aria-labelledby="name">
+        <div class="hero-copy">
+          <p class="home-label"><span class="location-marker" aria-hidden="true"></span> Delhi, India</p>
+          <h1 id="name">Adil Bains<span aria-hidden="true">.</span></h1>
+          <p class="hero-role">Backend systems &amp; infrastructure</p>
+          <p class="hero-bio">I’m a computer science student at MSIT. I build with Go, TypeScript, and Linux, and I’m interested in how software behaves once it’s running.</p>
+          <div class="hero-actions">
+            <a class="home-cta" href="#work">Selected work <span aria-hidden="true">↓</span></a>
+            <a class="hero-email" href="mailto:adilbains.work@gmail.com">Email me <Arrow /></a>
           </div>
-        </IndexRow>
-      </div>
+        </div>
+        <figure class="hero-art"><PortfolioTerrain /></figure>
+      </section>
+      <section id="work" class="home-section" aria-labelledby="work-heading">
+        <div class="section-heading">
+          <h2 id="work-heading">Selected work</h2>
+          <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+        </div>
+        <ul class="work-grid">
+          {projects.map(({ id, data }) => (
+            <li class="work-entry" data-project={id}>
+              <a class="work-card" href={sitePath(`projects/${id}/`)}>
+                <div class="work-visual"><ProjectDiagram project={id} /></div>
+                <div class="work-copy">
+                  <div class="work-title"><h3>{data.title}</h3><Arrow /></div>
+                  <p>{data.description}</p>
+                  <p class="work-stack">{data.stack.slice(0, 3).join(' / ')}</p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="about" class="home-section home-profile" aria-labelledby="about-heading">
+        <div>
+          <h2 id="about-heading">About</h2>
+          <p class="profile-intro">I like working where application code meets infrastructure. My recent projects have taken me through event-driven services, worker queues, and deploying and observing them on Kubernetes.</p>
+          <dl class="home-skills">
+            {skills.map(({ label, value }) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
+          </dl>
+        </div>
+        <div>
+          <h3>Education</h3>
+          <p class="school-name">Maharaja Surajmal Institute of Technology</p>
+          <p>B.Tech. in Computer Science &amp; Engineering</p>
+          <p class="school-date">Aug 2024 – Jun 2028 · 9.1/10 CGPA</p>
+          <h3 class="hackathon-heading">Hackathons</h3>
+          <ul class="home-hackathons">
+            {hackathons.map(({ project, event, result, description }) => <li><strong>{project}</strong><span>{event} · {result}</span><p>{description}</p></li>)}
+          </ul>
+        </div>
+      </section>
     </main>
-    <footer>© 2026 Adil Bains</footer>
+    <footer class="home-footer">
+      <h2>Get in touch</h2>
+      <div class="footer-links">
+        <a href="mailto:adilbains.work@gmail.com">Email <Arrow /></a>
+        <a href="https://github.com/ADIBAINS">GitHub <Arrow /></a>
+        <a href={sitePath('profile.txt')}>Plain-text profile <Arrow /></a>
+      </div>
+      <small>© 2026 Adil Bains</small>
+    </footer>
   </div>
 </Base>

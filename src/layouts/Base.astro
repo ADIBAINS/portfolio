@@ -11,7 +11,7 @@ interface Props {
 }
 const { preview = false, designFonts, banner = true, title = 'Adil Bains' } = Astro.props;
 const description = 'Adil Bains studies computer science at MSIT and builds software for the web.';
-const url = Astro.site!.href;
+const url = new URL(Astro.url.pathname, Astro.site).href;
 const image = new URL('social.png', Astro.site).href;
 const favicon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#fff"/><path d="M8 49l18-29 9 14 8-19 13 34H8z" fill="#0a0a0a"/><path d="m19 32 7-12 7 11-7-3z" fill="#fff"/><circle cx="18" cy="17" r="4" fill="#0a0a0a"/></svg>';
 ---

@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Arrow from '../../components/Arrow.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+import ProjectDiagram from '../../components/ProjectDiagram.astro';
+import { sitePath } from '../../designs/editions';
+import '../../home.css';
+
+export async function getStaticPaths() {
+  return (await getCollection('projects')).map(project => ({ params: { project: project.id }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, url, stack } = project.data;
+---
+<Base banner={false} title={`${title} · Adil Bains`} designFonts="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Rethink+Sans:wght@400;500;600;700;800&display=swap">
+  <div class="portfolio-home">
+    <header class="home-nav case-nav">
+      <a class="home-brand" href={sitePath('#work')}>← Selected work</a>
+      <ThemeToggle />
+    </header>
+    <main class="home-case">
+      <h1>{title}</h1>
+      <p class="case-lead">{description}</p>
+      <p class="work-stack">{stack.join(' / ')}</p>
+      <a class="home-cta" href={url}>View source <Arrow /></a>
+      <div class="work-entry case-diagram" data-project={project.id}><div class="work-visual"><ProjectDiagram project={project.id} /></div></div>
+      <article class="home-case-content"><Content /></article>
+    </main>
+  </div>
+</Base>
