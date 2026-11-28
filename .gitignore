@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+out/
+.vercel/
+.playwright-mcp/
+.sites-checkout/
+.hallmark/
+.openai/
+next-env.d.ts
+*.tsbuildinfo
