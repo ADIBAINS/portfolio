@@ -1,0 +1,36 @@
+---
+const width = 620;
+const lines = Array.from({ length: 44 }, (_, layer) => {
+  const points = Array.from({ length: 125 }, (_, step) => {
+    const x = step * 5;
+    const ridge = 107 * Math.exp(-((x - 356 - layer * 1.8) ** 2) / 12400);
+    const foothill = 58 * Math.exp(-((x - 84 + layer * 2) ** 2) / 10900);
+    const ripple = Math.sin(x / 24 + layer * .18) * 12 + Math.cos(x / 10 + layer * .11) * 3.8;
+    const y = 171 + layer * 5.1 - ridge * (1 - layer / 125) - foothill + ripple;
+    return `${step === 0 ? 'M' : 'L'}${x} ${y.toFixed(1)}`;
+  });
+  return points.join(' ');
+});
+---
+<svg viewBox={`0 0 ${width} 385`} preserveAspectRatio="xMidYMid slice" role="img" aria-label="An orange sun above ridgelines drawn as a topographic surface">
+  <defs>
+    <pattern id="terrain-grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0v34" fill="none" stroke="#eee3b9" opacity=".13" />
+    </pattern>
+    <linearGradient id="terrain-ink" x1="0" x2="0" y1="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#a4ae87" />
+      <stop offset="1" stop-color="#536953" />
+    </linearGradient>
+    <clipPath id="terrain-frame"><path d="M0 0h620v385H0z" /></clipPath>
+  </defs>
+  <path d="M0 0h620v385H0z" fill="#18251f" />
+  <path d="M0 0h620v385H0z" fill="url(#terrain-grid)" />
+  <circle cx="463" cy="129" r="68" fill="#e18c62" />
+  <circle cx="463" cy="129" r="87" fill="none" stroke="#d9a586" opacity=".46" />
+  <circle cx="463" cy="129" r="106" fill="none" stroke="#d9a586" opacity=".22" />
+  <g clip-path="url(#terrain-frame)">
+    <path d={lines[0] + 'V385H0Z'} fill="#18251f" />
+    {lines.map((d, index) => <path {d} fill="none" stroke="url(#terrain-ink)" stroke-width={index % 6 === 0 ? 1.4 : .65} opacity={index % 6 === 0 ? .91 : .65} />)}
+  </g>
+  <path d="M23 36V23h13m548 0h13v13M23 349v13h13m548 0h13v-13" stroke="#e0d8ba" stroke-width="1" fill="none" opacity=".55" />
+</svg>
